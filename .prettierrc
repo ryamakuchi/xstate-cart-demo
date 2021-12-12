@@ -3,13 +3,13 @@
   "singleQuote": true,
   "overrides": [
     {
-      "files": ["*.js", "*.json", "*.mjs"],
+      "files": ["**/*.js", "**/*.json", "**/*.mjs"],
       "options": {
         "tabWidth": 2
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["**/*.ts", "**/*.tsx"],
       "options": {
         "tabWidth": 2
       }
