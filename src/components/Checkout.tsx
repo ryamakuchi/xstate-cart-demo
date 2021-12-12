@@ -71,7 +71,6 @@ export const Checkout = ({ state, send }: Props) => {
                   email: checkout.email,
                   shippingAddress: checkout.shippingAddress,
                   paymentMethod: checkout.paymentMethod,
-                  isCompleted: false,
                 },
               })
             )

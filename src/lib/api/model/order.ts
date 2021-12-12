@@ -6,5 +6,4 @@ export interface Order {
   email: string;
   shippingAddress: string;
   paymentMethod: string;
-  isCompleted: boolean;
 }

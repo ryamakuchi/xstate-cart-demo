@@ -54,5 +54,4 @@ export const checkout: Checkout = {
   shippingAddress:
     '〒106-6237 東京都港区六本木３丁目２−１ 六本木グランドタワー37F',
   paymentMethod: 'creditCard',
-  isCompleted: false,
 };

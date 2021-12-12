@@ -7,5 +7,4 @@ export interface Checkout {
   email: string;
   shippingAddress: string;
   paymentMethod: string;
-  isCompleted: boolean;
 }
