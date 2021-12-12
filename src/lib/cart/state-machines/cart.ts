@@ -1,14 +1,8 @@
-import { createMachine } from 'xstate';
+import { createMachine, assign } from 'xstate';
 
 import { CartMachineContext } from './context';
 import { CartMachineEvent } from './events';
-import {
-  setShop,
-  loadCheckout,
-  mutateCheckout,
-  setOrder,
-  mutateCart,
-} from './actions';
+import { setShop, loadCheckout, mutateCheckout, setOrder } from './actions';
 
 import { shopIdValid, checkoutValid, orderValid } from './guards';
 
@@ -31,19 +25,11 @@ export const cartMachine = createMachine<CartMachineContext, CartMachineEvent>(
           label: 'cart に関する処理を開始',
         },
         on: {
-          SET_EMPTY: {
-            target: 'empty',
-          },
           LOAD_CHECKOUT: {
             target: 'checkout',
             actions: ['loadCheckout'],
             cond: 'checkoutValid',
           },
-        },
-      },
-      empty: {
-        meta: {
-          label: 'カートに何も存在しない状態',
         },
       },
       checkout: {
@@ -57,19 +43,12 @@ export const cartMachine = createMachine<CartMachineContext, CartMachineEvent>(
               label: 'リソース編集中',
             },
             on: {
-              MUTATE_CART: [
-                {
-                  actions: ['mutateCart'],
-                },
-              ],
+              SET_EMPTY: {
+                target: '#cart.empty',
+              },
               MUTATE_CHECKOUT: [
                 {
                   actions: ['mutateCheckout'],
-                },
-              ],
-              LOAD_CHECKOUT: [
-                {
-                  actions: ['loadCheckout'],
                 },
               ],
               FINALIZE_CHECKOUT: {
@@ -86,7 +65,17 @@ export const cartMachine = createMachine<CartMachineContext, CartMachineEvent>(
             invoke: {
               id: 'finalizeCheckout',
               src: 'finalizeCheckout',
-              onDone: 'completed',
+              onDone: {
+                target: 'completed',
+                actions: assign((context) => {
+                  return {
+                    ...context,
+                    customer: null,
+                    cart: null,
+                    checkout: null,
+                  };
+                }),
+              },
               onError: 'completed', // 成功しても失敗しても注文完了なので状態は移行させる
             },
           },
@@ -98,6 +87,11 @@ export const cartMachine = createMachine<CartMachineContext, CartMachineEvent>(
               target: '#cart.orderCompleted',
             },
           },
+        },
+      },
+      empty: {
+        meta: {
+          label: 'カートに何も存在しない状態',
         },
       },
       orderCompleted: {
@@ -118,13 +112,18 @@ export const cartMachine = createMachine<CartMachineContext, CartMachineEvent>(
       setShop,
       loadCheckout,
       mutateCheckout,
-      mutateCart,
       setOrder,
     },
     guards: {
       shopIdValid,
       checkoutValid,
       orderValid,
+    },
+    services: {
+      finalizeCheckout: async () => {
+        // 後始末的なコードのかわり
+        await setTimeout(() => console.log('購入完了！'), 1000);
+      },
     },
   }
 );

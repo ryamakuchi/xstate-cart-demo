@@ -32,18 +32,6 @@ export const loadCheckoutEventCreator = ({
   checkout,
 });
 
-export const mutateCartEventCreator = ({
-  cart,
-}: {
-  cart: Cart;
-}): {
-  type: 'MUTATE_CART';
-  cart: Cart;
-} => ({
-  type: 'MUTATE_CART',
-  cart,
-});
-
 export const mutateCheckoutEventCreator = ({
   checkout,
 }: {
@@ -57,25 +45,17 @@ export const mutateCheckoutEventCreator = ({
 });
 
 export const finalizeCheckoutEventCreator = ({
-  checkoutId,
-  cart,
   checkout,
   order,
 }: {
-  checkoutId: string;
-  cart?: Cart;
-  checkout?: Checkout;
+  checkout: Checkout;
   order: Order;
 }): {
   type: 'FINALIZE_CHECKOUT';
-  checkoutId: string;
-  cart?: Cart;
-  checkout?: Checkout;
+  checkout: Checkout;
   order: Order;
 } => ({
   type: 'FINALIZE_CHECKOUT',
-  checkoutId,
-  cart,
   checkout,
   order,
 });
@@ -86,23 +66,9 @@ export const setEmptyEventCreator = (): {
   type: 'SET_EMPTY',
 });
 
-export const loadOrderEventCreator = ({
-  order,
-}: {
-  order: Order;
-}): {
-  type: 'LOAD_ORDER';
-  order: Order;
-} => ({
-  type: 'LOAD_ORDER',
-  order,
-});
-
 export type CartMachineEvent =
   | ReturnType<typeof setShopEventCreator>
   | ReturnType<typeof loadCheckoutEventCreator>
   | ReturnType<typeof setEmptyEventCreator>
-  | ReturnType<typeof loadOrderEventCreator>
-  | ReturnType<typeof mutateCartEventCreator>
   | ReturnType<typeof mutateCheckoutEventCreator>
   | ReturnType<typeof finalizeCheckoutEventCreator>;

@@ -3,7 +3,6 @@ import { useMachine } from '@xstate/react';
 import { cartMachine } from './lib/cart/state-machines/cart';
 import {
   setShopEventCreator,
-  setEmptyEventCreator,
   loadCheckoutEventCreator,
 } from './lib/cart/state-machines/events';
 
@@ -12,6 +11,7 @@ import { Container } from '@chakra-ui/react';
 import { Loading } from './components/Loading';
 import { Empty } from './components/Empty';
 import { Checkout } from './components/Checkout';
+import { Order } from './components/Order';
 
 import { shopId, customer, cart, checkout } from './mock';
 
@@ -22,11 +22,6 @@ export const App = () => {
     send(setShopEventCreator({ shopId }));
 
     if (!state.matches('initializing')) return;
-
-    if (location.hash === '#empty') {
-      send(setEmptyEventCreator());
-      return;
-    }
 
     send(
       loadCheckoutEventCreator({
@@ -41,7 +36,8 @@ export const App = () => {
     <Container maxW="container.sm">
       {state.matches('initializing') && <Loading />}
       {state.matches('empty') && <Empty />}
-      {state.matches('checkout') && <Checkout />}
+      {state.matches('checkout') && <Checkout state={state} send={send} />}
+      {state.matches('orderCompleted') && <Order state={state} send={send} />}
     </Container>
   );
 };

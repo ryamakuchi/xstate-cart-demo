@@ -35,7 +35,7 @@ export const checkoutValid = (
 };
 
 export const orderValid = (_: CartMachineContext, event?: CartMachineEvent) => {
-  if (event?.type === 'LOAD_ORDER') {
+  if (event?.type === 'FINALIZE_CHECKOUT') {
     return isOrder(event.order);
   }
   return false;
