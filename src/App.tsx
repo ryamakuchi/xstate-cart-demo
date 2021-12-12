@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import logo from './assets/logo.svg';
 import './assets/App.css';
+import { useMachine } from '@xstate/react';
+import { cartMachine } from './lib/cart/state-machines/cart';
 
 function App() {
+  const [state, send] = useMachine(cartMachine, { devTools: true });
   const [count, setCount] = useState(0);
 
   return (

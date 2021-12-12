@@ -13,7 +13,7 @@ import {
 import { shopIdValid, checkoutValid, orderValid } from './guards';
 
 export const defaultContext: CartMachineContext = {
-  shopId: undefined,
+  shopId: '',
   customer: null,
   cart: null,
   checkout: null,
@@ -97,7 +97,7 @@ export const cartMachine = createMachine<CartMachineContext, CartMachineEvent>(
               label: '注文および後始末完了',
             },
             always: {
-              target: '#shopCart.orderCompleted',
+              target: '#cart.orderCompleted',
             },
           },
         },
