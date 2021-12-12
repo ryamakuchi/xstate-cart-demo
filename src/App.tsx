@@ -7,8 +7,12 @@ import {
   loadCheckoutEventCreator,
 } from './lib/cart/state-machines/events';
 
-import { Spinner } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
+
+import { Loading } from './components/Loading';
+import { Empty } from './components/Empty';
 import { Checkout } from './components/Checkout';
+
 import { shopId, customer, cart, checkout } from './mock';
 
 export const App = () => {
@@ -34,18 +38,10 @@ export const App = () => {
   }, []);
 
   return (
-    <div>
-      {state.matches('initializing') && (
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-        />
-      )}
-      {state.matches('empty') && <div>空です</div>}
+    <Container maxW="container.sm">
+      {state.matches('initializing') && <Loading />}
+      {state.matches('empty') && <Empty />}
       {state.matches('checkout') && <Checkout />}
-    </div>
+    </Container>
   );
 };
