@@ -1,0 +1,127 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "useJSXTextNode": true,
+    "ext": ["js", "jsx", "ts", "tsx"],
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "jsx-a11y",
+    "react",
+    "react-hooks",
+    "import",
+    "prettier",
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/ignore": ["node_modules"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".json", ".ts", ".tsx", ".svg", ".mjs"]
+      },
+      "typescript": {}
+    },
+    "import/extensions": [
+      "error",
+      "never",
+      {
+        "svg": "always"
+      }
+    ]
+  },
+  "rules": {
+    "react/prop-types": "off",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "useRecoilCallback"
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "import/no-unresolved": [
+      "error",
+      {
+        "commonjs": true,
+        "amd": false
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "import/no-self-import": "error",
+    "jsx-a11y/anchor-is-valid": "error",
+    "no-console": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "../..",
+            "message": "ディレクトリのインポートは分かりにくい為、モジュール名を指定して下さい"
+          }
+        ],
+        "patterns": ["**/src/**", "!./src/**", "**/dist/**"]
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "none"
+      }
+    ],
+    "import/no-relative-packages": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**.{ts,tsx}"],
+      "rules": {
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "error",
+        "@typescript-eslint/indent": "off"
+      }
+    }
+  ]
+}
