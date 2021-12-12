@@ -1,48 +1,51 @@
-import { useState } from 'react';
-import logo from './assets/logo.svg';
-import './assets/App.css';
+import { useEffect } from 'react';
 import { useMachine } from '@xstate/react';
 import { cartMachine } from './lib/cart/state-machines/cart';
+import {
+  setShopEventCreator,
+  setEmptyEventCreator,
+  loadCheckoutEventCreator,
+} from './lib/cart/state-machines/events';
 
-function App() {
+import { Spinner } from '@chakra-ui/react';
+import { Checkout } from './components/Checkout';
+import { shopId, customer, cart, checkout } from './mock';
+
+export const App = () => {
   const [state, send] = useMachine(cartMachine, { devTools: true });
-  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    send(setShopEventCreator({ shopId }));
+
+    if (!state.matches('initializing')) return;
+
+    if (location.hash === '#empty') {
+      send(setEmptyEventCreator());
+      return;
+    }
+
+    send(
+      loadCheckoutEventCreator({
+        customer,
+        cart,
+        checkout,
+      })
+    );
+  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div>
+      {state.matches('initializing') && (
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      )}
+      {state.matches('empty') && <div>空です</div>}
+      {state.matches('checkout') && <Checkout />}
     </div>
   );
-}
-
-export default App;
+};

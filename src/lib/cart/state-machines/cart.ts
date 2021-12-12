@@ -34,13 +34,11 @@ export const cartMachine = createMachine<CartMachineContext, CartMachineEvent>(
           SET_EMPTY: {
             target: 'empty',
           },
-          LOAD_CHECKOUT: [
-            {
-              target: 'checkout',
-              actions: ['loadCheckout'],
-              cond: 'checkoutValid',
-            },
-          ],
+          LOAD_CHECKOUT: {
+            target: 'checkout',
+            actions: ['loadCheckout'],
+            cond: 'checkoutValid',
+          },
         },
       },
       empty: {

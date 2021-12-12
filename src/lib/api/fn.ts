@@ -9,7 +9,7 @@ export function isCart(arg: any): arg is Cart {
 }
 
 export function isCustomer(arg: any): arg is Customer {
-  return typeof arg.token === 'string' && arg.token.length > 0;
+  return typeof arg.email === 'string' && arg.email.length > 0;
 }
 
 export function isOrder(arg: any): arg is Order {
