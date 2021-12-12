@@ -1041,6 +1041,13 @@
     react-refresh "^0.11.0"
     resolve "^1.20.0"
 
+"@xstate/inspect@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@xstate/inspect/-/inspect-0.5.2.tgz#83d58c96f704ceaab6f7849e578d8e6ce212038c"
+  integrity sha512-DdqUPiKaHW6VpnVZcm8YMD8LBeS3B9bB3+VT/6VEyilgvf2MgYzho2dKOOkeZM0iDEadSmzGdDpz0jh7DSpMXQ==
+  dependencies:
+    fast-safe-stringify "^2.0.7"
+
 "@xstate/react@^1.6.3":
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/@xstate/react/-/react-1.6.3.tgz#706f3beb7bc5879a78088985c8fd43b9dab7f725"
@@ -1580,6 +1587,11 @@ fast-diff@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.2.0.tgz#73ee11982d86caaf7959828d519cfe927fac5f03"
   integrity sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
+
+fast-safe-stringify@^2.0.7:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.1.1.tgz#c406a83b6e70d9e35ce3b30a81141df30aeba884"
+  integrity sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==
 
 find-root@^1.1.0:
   version "1.1.0"

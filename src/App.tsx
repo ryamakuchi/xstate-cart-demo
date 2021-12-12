@@ -1,45 +1,43 @@
-import { useState } from 'react';
-import logo from './assets/logo.svg';
-import './assets/App.css';
+import { useEffect } from 'react';
+import { useMachine } from '@xstate/react';
+import { cartMachine } from './lib/cart/state-machines/cart';
+import {
+  setShopEventCreator,
+  loadCheckoutEventCreator,
+} from './lib/cart/state-machines/events';
 
-function App() {
-  const [count, setCount] = useState(0);
+import { Container } from '@chakra-ui/react';
+
+import { Loading } from './components/Loading';
+import { Empty } from './components/Empty';
+import { Checkout } from './components/Checkout';
+import { Order } from './components/Order';
+
+import { shopId, customer, cart, checkout } from './mock';
+
+export const App = () => {
+  const [state, send] = useMachine(cartMachine, { devTools: true });
+
+  useEffect(() => {
+    send(setShopEventCreator({ shopId }));
+
+    if (!state.matches('initializing')) return;
+
+    send(
+      loadCheckoutEventCreator({
+        customer,
+        cart,
+        checkout,
+      })
+    );
+  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <Container maxW="container.sm">
+      {state.matches('initializing') && <Loading />}
+      {state.matches('empty') && <Empty />}
+      {state.matches('checkout') && <Checkout state={state} send={send} />}
+      {state.matches('orderCompleted') && <Order state={state} send={send} />}
+    </Container>
   );
-}
-
-export default App;
+};
